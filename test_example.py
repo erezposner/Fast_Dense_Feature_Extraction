@@ -51,7 +51,7 @@ if __name__ == '__main__':
     ## Base_net definitions
     base_net = BaseNet()
     base_net.cuda()
-
+    base_net.eval()
     ## SlimNet definitions & test run
     slim_net = SlimNet(base_net=base_net, pH=pH, pW=pW, sL1=sL1, sL2=sL2, imH=imH, imW=imW)
     slim_net.cuda()
