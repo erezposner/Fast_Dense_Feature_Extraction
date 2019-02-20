@@ -1,43 +1,53 @@
-![GitHub Logo](Vulcan/Docs/Images/small_logo.png)
-# Vulcan
+![Arnon is the man](Paper/fast_dense.gif)
+# Fast Dense Feature Extraction for CNNs
 
-A Pytorch wrapper for ML projects in Mantis-Vision.
+A Pytorch implemention of the paper *Fast Dense Feature Extraction with CNNs
+that have Pooling or Striding Layers*
+ .
 ## Getting Started
 
-These instructions will explain how to use the Vulcan framework and how to install it in your system.
+These instructions will explain how to use the FDFE project.
 ### Prerequisites
-
-* Python>=3.6
-* Opencv
-* tqdm
-* Pytorch>=1.0
-* Tensorboard
-* TensorboardX
+* Python>=3.5
+* pytorch>=1.0
 * numpy
 * matplotlib
-* yaml
-* panda
-* imgaug
-
 
 ### Installing
 
 1) Install all prerequisites.
-2) Install the Vulcan package via pip install 
-```
-pip install git+https://github.mantis.local/arnon/Lemnos
-```
+2) Clone the project
+
+## Project Structure
+
+
+* ```FDFE.py``` - implementation of the layers multipool,multiconv,unwarping and preparation described in the paper.
+* ```BaseNet.py``` - 
 
 ## Running the tests
 
-Now you should run tests to make sure that Vulcan is installed correctly.
+Now you should run tests to make sure that FDFE project works correctly.
 
+### Possible arguments
+```
+batch_size - dasd
+img_size -adasdsa
+..dasd
+```
 
 ```
-Give an example
+python test.example
+
 ```
 
-## Devloping
+Expected output
+
+```
+
+```
+## To use your own network
+
+adadadkbdabkjbdfajksbd
 
 Add additional notes about how to deploy this on a live system
 
@@ -45,15 +55,11 @@ Add additional notes about how to deploy this on a live system
 
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
 ## Authors
 
+* **Erez P.** - *Initial work*
 * **Arnon K.** - *Initial work*
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## Acknowledgments
 
