@@ -23,8 +23,8 @@ if __name__ == '__main__':
     # region Initial Parameters
 
     ## Image Dimensions
-    imH = 480
-    imW = 640
+    imH = 960
+    imW = 1280
 
     ## Stride step size
     sL1 = 2
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     imH = int(np.ceil(imH / (sL1 * sL2)) * sL1 * sL2)
 
     ## Base_net definitions
-    base_net = StandardDec()
+    base_net = BaseNet()
     base_net.cuda()
 
     ## SlimNet definitions & test run
