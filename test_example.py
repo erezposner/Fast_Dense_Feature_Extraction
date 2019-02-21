@@ -12,7 +12,7 @@ if __name__ == '__main__':
     methods = ['singlePatch', 'allPatches']
     running_mode = methods[1]  # options are ['singlePatch','allPatches']
     # for singlePatch mode define patch offset
-    patch_j_center = 50
+    patch_j_center = 20
     patch_i_center = 42
 
     # for all patches define batch size
@@ -68,7 +68,7 @@ if __name__ == '__main__':
         start = time()
         slim_net_output = slim_net(testImage)
         times.append(time() - start)
-    print("Total time for C_P: ", np.mean(times[warm_up:-1]))
+    print('Total time for C_P: {}sec'.format(np.mean(times[warm_up:-1])))
     slim_net_output_numpy = slim_net_output.detach().cpu().numpy()
 
     ## Evaluate base_net over singlePatch / allPatches
@@ -80,15 +80,19 @@ if __name__ == '__main__':
         testPatch = testPatch.unsqueeze(0)
         testPatch = testPatch.unsqueeze(0)
         testPatch = testPatch.to(device)
+        t = time()
         base_net_output = base_net(testPatch)
-        base_net_output_numpy = base_net_output.detach().cpu().numpy()[0][0, ...].squeeze()
+        p = time()-t
+        base_net_output_numpy = base_net_output.detach().cpu().numpy().squeeze()
+        print('Total time for C_I per Patch without warm up: {}sec'.format(p))
+
         print('------------------------------------------------------------')
         print('------- Comparison between a base_net single patch evaluation and slim_net -------')
         print('testPatch cropped at i={} j={} base_net output value is {}'.format(patch_i_center, patch_j_center,
                                                                                   base_net_output_numpy))
-        print('testPatch slim_net output value is {}'.format(slim_net_output_numpy[patch_i_center, patch_j_center]))
-        print('difference between the base_net & slim_net - {0:.13f}'.format(
-            abs(slim_net_output_numpy[patch_i_center, patch_j_center] - base_net_output_numpy)))
+        print('testPatch slim_net output value is {}'.format(slim_net_output_numpy[...,patch_i_center, patch_j_center]))
+        print('difference between the base_net & slim_net - {0:.13f}'.format(abs(slim_net_output_numpy[...,patch_i_center, patch_j_center] -base_net_output_numpy).sum()))
+
         print('------------------------------------------------------------')
     if (running_mode == methods[1]):  # evaluate base_net over all patches
 
@@ -108,7 +112,7 @@ if __name__ == '__main__':
         cropped_patches = [
             padded_testImage[0, 0, y - pH // 2:y + pH // 2 + 1, x - pW // 2:x + pW // 2 + 1].unsqueeze(0).unsqueeze(0)
             for x, y in zip(X.flatten(), Y.flatten())]
-
+        time_array = []
         # evaluate base_net on all patches and build output image for comparison
         base_net_output_per_patch = np.zeros((slim_net.outChans, imH, imW))
         if batch_size > 1:
@@ -116,8 +120,9 @@ if __name__ == '__main__':
             for p in range(0, iterations):
                 cropped_batches = torch.cat(cropped_patches[p * batch_size:(p + 1) * batch_size])
                 cropped_batches = cropped_batches.to(device)
-
+                t = time()
                 y_base = base_net(cropped_batches)
+                time_array.append(time()-t)
                 indices_in_batch = range(p * batch_size, (p + 1) * batch_size)[0:len(cropped_batches)]
 
                 yi, xi = np.unravel_index(indices_in_batch, (imH, imW))
@@ -128,12 +133,16 @@ if __name__ == '__main__':
         else:
             for ind, p in enumerate(cropped_patches):
                 p = p.to(device)
+                t = time()
                 y_base, = base_net(p)
+                time_array.append(time() - t)
                 yi, xi = np.unravel_index(ind, (imH, imW))
                 base_current_output = y_base.detach().cpu().numpy().squeeze()
                 base_net_output_per_patch[..., yi, xi] = base_current_output
 
         print('------------------------------------------------------------')
+        print('Averaged time for C_I per Patch without warm up: {}sec'.format(np.mean( time_array)))
+
         print('------- Comparison between a base_net over all patches output and slim_net -------')
         print('aggregated difference percentage = {0:.10f}%'.format(
             (100 * np.sum(np.sum(abs(base_net_output_per_patch - slim_net_output_numpy)))) / (imH * imW)))
