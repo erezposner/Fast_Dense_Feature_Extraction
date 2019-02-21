@@ -46,23 +46,18 @@ Now you should ```test_example.py``` to make sure that FDFE project works correc
 The test generates a random input image
 <img src="https://latex.codecogs.com/svg.latex?\Small&space;I" /> 
  of size ```imH X imW```  and evaluates it on both 
-<img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" />  
-<img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{I}" />
-.
+<img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> and <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{I}" />.
 
 The script continues and evaluates differences between both CNN's outputs and performs speed benchmarking.
 
 There are two modes of operation for 
-<img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> 
-:
-* ***singlePatch*** mode- run 
-<img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> 
+<img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" />:
+* ***singlePatch*** mode- run <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> 
 over a single patch ```pH x pW```
-that would get cropped from input image
-<img src="https://latex.codecogs.com/svg.latex?\Small&space;I" /> 
-around ```I(patch_j_center,patch_i_center)```
+that would get cropped from input image <img src="https://latex.codecogs.com/svg.latex?\Small&space;I" /> around <img src="https://latex.codecogs.com/svg.latex?\Small&space;I(patch \space\space center_i,patch \space\space center_j)" /> 
 
-* allPatches
+* <b>allPatches</b> mode - run <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" />  over multuple patches at ones. 
+here ```batch_size``` will determine how many patches would get evaluated at once.
 
  
 ### Possible arguments
@@ -71,6 +66,9 @@ In ```test_example.py``` there are initial parameters that could be adjusted:
 <pre>
 - <b>imH</b> - Input image height  
 - <b>imW</b> - Input image width
+
+- <b>pW</b> - patch Width - current implementation supports only odd width size
+- <b>pH</b> - patch Height - current implementation supports only odd width size
 
 - <b>sL1</b> - First stride value 
 - <b>sL2</b> - Second stride value
@@ -84,8 +82,6 @@ In ```test_example.py``` there are initial parameters that could be adjusted:
 * <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> <b>singlePatch</b> mode:
 
 <pre>
-- <b>pW</b> - patch Width - current implementation supports only odd width size
-- <b>pH</b> - patch Height - current implementation supports only odd width size
 - <b>patch_i_center</b> - patch row center
 - <b>patch_j_center</b> - patch column center
 </pre>
