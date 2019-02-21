@@ -46,21 +46,16 @@ Now you should ```test_example.py``` to make sure that FDFE project works correc
 The test generates a random input image
 <img src="https://latex.codecogs.com/svg.latex?\Small&space;I" /> 
  of size ```imH X imW```  and evaluates it on both 
-<img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" />  
-<img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{I}" />
-.
+<img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> and <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{I}" />.
 
 The script continues and evaluates differences between both CNN's outputs and performs speed benchmarking.
 
 There are two modes of operation for 
 <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> 
 :
-* ***singlePatch*** mode- run 
-<img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> 
+* ***singlePatch*** mode- run <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> 
 over a single patch ```pH x pW```
-that would get cropped from input image
-<img src="https://latex.codecogs.com/svg.latex?\Small&space;I" /> 
-around ```I(patch_j_center,patch_i_center)```
+that would get cropped from input image <img src="https://latex.codecogs.com/svg.latex?\Small&space;I" /> around <img src="https://latex.codecogs.com/svg.latex?\Small&space;I(patch \space\space center_i,patch \space\space center_j)" /> 
 
 * allPatches
 
