@@ -10,7 +10,7 @@ if __name__ == '__main__':
     #######################################################
     # region debug mode
     methods = ['singlePatch', 'allPatches']
-    running_mode = methods[1]  # options are ['singlePatch','allPatches']
+    running_mode = methods[0]  # options are ['singlePatch','allPatches']
     # for singlePatch mode define patch offset
     patch_j_center = 20
     patch_i_center = 42
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     warm_up = 10
     iterations = 50
     times = []
-    for i in range(0, warm_up + iterations+1):
+    for i in range(0, warm_up + iterations + 1):
         start = time()
         slim_net_output = slim_net(testImage)
         times.append(time() - start)
@@ -82,7 +82,7 @@ if __name__ == '__main__':
         testPatch = testPatch.to(device)
         t = time()
         base_net_output = base_net(testPatch)
-        p = time()-t
+        p = time() - t
         base_net_output_numpy = base_net_output.detach().cpu().numpy().squeeze()
         print('Total time for C_I per Patch without warm up: {}sec'.format(p))
 
@@ -90,8 +90,10 @@ if __name__ == '__main__':
         print('------- Comparison between a base_net single patch evaluation and slim_net -------')
         print('testPatch cropped at i={} j={} base_net output value is {}'.format(patch_i_center, patch_j_center,
                                                                                   base_net_output_numpy))
-        print('testPatch slim_net output value is {}'.format(slim_net_output_numpy[...,patch_i_center, patch_j_center]))
-        print('difference between the base_net & slim_net - {0:.13f}'.format(abs(slim_net_output_numpy[...,patch_i_center, patch_j_center] -base_net_output_numpy).sum()))
+        print(
+            'testPatch slim_net output value is {}'.format(slim_net_output_numpy[..., patch_i_center, patch_j_center]))
+        print('difference between the base_net & slim_net - {0:.13f}'.format(
+            abs(slim_net_output_numpy[..., patch_i_center, patch_j_center] - base_net_output_numpy).sum()))
 
         print('------------------------------------------------------------')
     if (running_mode == methods[1]):  # evaluate base_net over all patches
@@ -122,7 +124,7 @@ if __name__ == '__main__':
                 cropped_batches = cropped_batches.to(device)
                 t = time()
                 y_base = base_net(cropped_batches)
-                time_array.append(time()-t)
+                time_array.append(time() - t)
                 indices_in_batch = range(p * batch_size, (p + 1) * batch_size)[0:len(cropped_batches)]
 
                 yi, xi = np.unravel_index(indices_in_batch, (imH, imW))
@@ -141,7 +143,7 @@ if __name__ == '__main__':
                 base_net_output_per_patch[..., yi, xi] = base_current_output
 
         print('------------------------------------------------------------')
-        print('Averaged time for C_I per Patch without warm up: {}sec'.format(np.mean( time_array)))
+        print('Averaged time for C_I per Patch without warm up: {}sec'.format(np.mean(time_array)))
 
         print('------- Comparison between a base_net over all patches output and slim_net -------')
         print('aggregated difference percentage = {0:.10f}%'.format(
