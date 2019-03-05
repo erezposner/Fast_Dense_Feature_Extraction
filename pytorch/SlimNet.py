@@ -1,7 +1,7 @@
 import torch
 
 from torch import nn
-from FDFE import multiPoolPrepare, multiMaxPooling, unwrapPrepare, unwrapPool
+from pytorch.FDFE import multiPoolPrepare, multiMaxPooling, unwrapPrepare, unwrapPool
 
 
 class SlimNet(nn.Module):

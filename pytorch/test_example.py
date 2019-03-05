@@ -3,8 +3,8 @@ import torch
 import numpy as np
 import torch.nn.functional as F
 
-from SlimNet import SlimNet
-from BaseNet import BaseNet
+from pytorch.SlimNet import SlimNet
+from pytorch.BaseNet import BaseNet
 
 if __name__ == '__main__':
     #######################################################
