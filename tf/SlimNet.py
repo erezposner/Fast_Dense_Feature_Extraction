@@ -22,7 +22,7 @@ class SlimNet(tf.keras.Model):
         self.unwrapPrepare = unwrapPrepare()
         self.unwrapPool2 = unwrapPool(self.outChans, imH / (sL1 * sL2), imW / (sL1 * sL2), sL2, sL2)
         self.unwrapPool3 = unwrapPool(self.outChans, imH / sL1, imW / sL1, sL1, sL1)
-        self.reshape_end = tf.keras.layers.Reshape((-1, self.imH, self.imW))
+        self.reshape_end = tf.keras.layers.Reshape((-1, self.imH, self.imW),name="output_123")
 
     def call(self, inputs):
         x = self.multiPoolPrepare(inputs)
@@ -85,7 +85,7 @@ if __name__ == '__main__':
         SlimNet_test_input = tf.zeros([1, imH, imW, 1])
         from time import time
         values = []
-        for i in range(40):
+        for i in range(10):
             start = time()
             _output = slim_net(SlimNet_test_input)
             _output = tf.transpose(_output, perm=(1, 0, 2, 3))
@@ -93,3 +93,7 @@ if __name__ == '__main__':
         print(np.average(values[10:]))
 
         print(_output.shape)
+
+        checkpoint = tf.train.Checkpoint(x=slim_net)
+        checkpoint.save('./ckpt/')
+
