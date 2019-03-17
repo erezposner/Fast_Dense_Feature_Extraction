@@ -14,10 +14,10 @@ class multiPoolPrepare(tf.keras.layers.Layer):
         pady = patchY - 1
         padx = patchX - 1
 
-        _pad_top = np.ceil(pady / 2).astype(int)
-        _pad_bottom = np.floor(pady / 2).astype(int)
-        _pad_left = np.ceil(padx / 2).astype(int)
-        _pad_right = np.floor(padx / 2).astype(int)
+        _pad_top = int(np.ceil(pady / 2))
+        _pad_bottom = int(np.floor(pady / 2))
+        _pad_left = int(np.ceil(padx / 2))
+        _pad_right = int(np.floor(padx / 2))
         self.padding = tf.constant([[0, 0], [_pad_top, _pad_bottom], [_pad_left, _pad_right], [0, 0]], name='padding')
 
     def call(self, input):
@@ -137,31 +137,6 @@ class multiConv(tf.keras.layers.Layer):
         return tf.concat(res, 0)
 
 
-### Testing ###
-
-
-# imH = 960
-# imW = 1280
-#
-#
-# class bcolors:
-#     HEADER = '\033[95m'
-#     OKBLUE = '\033[94m'
-#     OKGREEN = '\033[92m'
-#     WARNING = '\033[93m'
-#     FAIL = '\033[91m'
-#     ENDC = '\033[0m'
-#     BOLD = '\033[1m'
-#     UNDERLINE = '\033[4m'
-#
-#
-# def unit_test_layer(layer, input, output):
-#     print(bcolors.HEADER + "Testing layer: {}".format(layer.name) + bcolors.ENDC)
-#     res = layer(input).shape
-#     if (res == output.shape):
-#         print(bcolors.OKGREEN + "Pass" + bcolors.ENDC)
-#     else:
-#         print(bcolors.FAIL + "Fail -  expected: {} got: {}".format(output.shape, res) + bcolors.ENDC)
 
 
 

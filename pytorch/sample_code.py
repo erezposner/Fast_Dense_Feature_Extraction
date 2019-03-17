@@ -1,10 +1,31 @@
 from time import time
 import torch
 import numpy as np
+import matplotlib.pyplot as plt
 import torch.nn.functional as F
 
 from pytorch.SlimNet import SlimNet
 from pytorch.BaseNet import BaseNet
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
+def header_printer(text):
+    print(bcolors.HEADER + text + bcolors.ENDC)
+
+def normal_printer(text):
+    print(text)
+
+def bold_printer(text):
+    print(bcolors.BOLD + text + bcolors.ENDC)
 
 if __name__ == '__main__':
     #######################################################
@@ -84,18 +105,18 @@ if __name__ == '__main__':
         base_net_output = base_net(testPatch)
         p = time() - t
         base_net_output_numpy = base_net_output.detach().cpu().numpy().squeeze()
-        print('Total time for C_I per Patch without warm up: {}sec'.format(p))
+        header_printer('Total time for C_I per Patch without warm up: {}sec'.format(p))
 
-        print('------------------------------------------------------------')
-        print('------- Comparison between a base_net single patch evaluation and slim_net -------')
-        print('testPatch cropped at i={} j={} base_net output value is {}'.format(patch_i_center, patch_j_center,
+        header_printer('------------------------------------------------------------')
+        header_printer('------- Comparison between a base_net single patch evaluation and slim_net -------')
+        bold_printer('testPatch cropped at i={} j={} base_net output value is {}'.format(patch_i_center, patch_j_center,
                                                                                   base_net_output_numpy))
-        print(
+        bold_printer(
             'testPatch slim_net output value is {}'.format(slim_net_output_numpy[..., patch_i_center, patch_j_center]))
-        print('difference between the base_net & slim_net - {0:.13f}'.format(
+        bold_printer('difference between the base_net & slim_net - {0:.13f}'.format(
             abs(slim_net_output_numpy[..., patch_i_center, patch_j_center] - base_net_output_numpy).sum()))
 
-        print('------------------------------------------------------------')
+        header_printer('------------------------------------------------------------')
     if (running_mode == methods[1]):  # evaluate base_net over all patches
 
         # first pad input image in order to crop patches lying at the image boundary
@@ -142,21 +163,21 @@ if __name__ == '__main__':
                 base_current_output = y_base.detach().cpu().numpy().squeeze()
                 base_net_output_per_patch[..., yi, xi] = base_current_output
 
-        print('------------------------------------------------------------')
-        print('Averaged time for C_I per Patch without warm up: {}sec'.format(np.mean(time_array)))
+        header_printer('------------------------------------------------------------')
+        header_printer('Averaged time for C_I per Patch without warm up: {}sec'.format(np.mean(time_array)))
 
-        print('------- Comparison between a base_net over all patches output and slim_net -------')
-        print('aggregated difference percentage = {0:.10f}%'.format(
+        header_printer('------- Comparison between a base_net over all patches output and slim_net -------')
+        bold_printer('aggregated difference percentage = {0:.10f}%'.format(
             (100 * np.sum(np.sum(abs(base_net_output_per_patch - slim_net_output_numpy)))) / (imH * imW)))
         index = np.argmax(abs(base_net_output_per_patch - slim_net_output_numpy))
         max_diff = np.max(abs(base_net_output_per_patch - slim_net_output_numpy))
 
         yi, xi = np.unravel_index(index, (imH, imW))
 
-        print('maximal abs difference = {0:.10f} at index i={1},j={2}'.format(max_diff, yi, xi))
-        print('------------------------------------------------------------')
+        header_printer('maximal abs difference = {0:.10f} at index i={1},j={2}'.format(max_diff, yi, xi))
+        header_printer('------------------------------------------------------------')
 
-        import matplotlib.pyplot as plt
+
 
         plt.close('all')
         plt.figure()
