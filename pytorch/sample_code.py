@@ -168,7 +168,7 @@ if __name__ == '__main__':
 
         header_printer('------- Comparison between a base_net over all patches output and slim_net -------')
         bold_printer('aggregated difference percentage = {0:.10f}%'.format(
-            (100 * np.sum(np.sum(abs(base_net_output_per_patch - slim_net_output_numpy)))) / (imH * imW)))
+            (100 * np.sum(np.sum(abs(base_net_output_per_patch - slim_net_output_numpy)))) / (slim_net_output_numpy.shape[0] * slim_net_output_numpy.shape[1] * slim_net_output_numpy.shape[2])))
         index = np.argmax(abs(base_net_output_per_patch - slim_net_output_numpy))
         max_diff = np.max(abs(base_net_output_per_patch - slim_net_output_numpy))
 
