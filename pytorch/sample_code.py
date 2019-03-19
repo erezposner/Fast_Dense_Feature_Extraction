@@ -31,7 +31,7 @@ if __name__ == '__main__':
     #######################################################
     # region debug mode
     methods = ['singlePatch', 'allPatches']
-    running_mode = methods[0]  # options are ['singlePatch','allPatches']
+    running_mode = methods[1]  # options are ['singlePatch','allPatches']
     # for singlePatch mode define patch offset
     patch_j_center = 20
     patch_i_center = 42
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     #######################################################
     # region setup ground
     device = torch.device("cuda:{0}".format(0) if torch.cuda.is_available() else "cpu")
-
+    header_printer("Running method: {} on device: {}".format(running_mode,device))
     torch.manual_seed(10)
     torch.cuda.manual_seed(10)
     testImage = torch.randn(1, 1, imH, imW)
@@ -89,7 +89,7 @@ if __name__ == '__main__':
         start = time()
         slim_net_output = slim_net(testImage)
         times.append(time() - start)
-    print('Total time for C_P: {}sec'.format(np.mean(times[warm_up:-1])))
+    header_printer('Total time for C_I: {}sec'.format(np.mean(times[warm_up:-1])))
     slim_net_output_numpy = slim_net_output.detach().cpu().numpy()
 
     ## Evaluate base_net over singlePatch / allPatches
@@ -105,14 +105,14 @@ if __name__ == '__main__':
         base_net_output = base_net(testPatch)
         p = time() - t
         base_net_output_numpy = base_net_output.detach().cpu().numpy().squeeze()
-        header_printer('Total time for C_I per Patch without warm up: {}sec'.format(p))
+        header_printer('Total time for C_P per Patch without warm up: {}sec'.format(p))
 
         header_printer('------------------------------------------------------------')
         header_printer('------- Comparison between a base_net single patch evaluation and slim_net -------')
-        bold_printer('testPatch cropped at i={} j={} base_net output value is {}'.format(patch_i_center, patch_j_center,
-                                                                                  base_net_output_numpy))
-        bold_printer(
-            'testPatch slim_net output value is {}'.format(slim_net_output_numpy[..., patch_i_center, patch_j_center]))
+        # bold_printer('testPatch cropped at i={} j={} base_net output value is {}'.format(patch_i_center, patch_j_center,
+        #                                                                           base_net_output_numpy))
+        # bold_printer(
+        #     'testPatch slim_net output value is {}'.format(slim_net_output_numpy[..., patch_i_center, patch_j_center]))
         bold_printer('difference between the base_net & slim_net - {0:.13f}'.format(
             abs(slim_net_output_numpy[..., patch_i_center, patch_j_center] - base_net_output_numpy).sum()))
 
@@ -164,7 +164,7 @@ if __name__ == '__main__':
                 base_net_output_per_patch[..., yi, xi] = base_current_output
 
         header_printer('------------------------------------------------------------')
-        header_printer('Averaged time for C_I per Patch without warm up: {}sec'.format(np.mean(time_array)))
+        header_printer('Averaged time for C_P per Patch without warm up: {}sec'.format(np.mean(time_array)))
 
         header_printer('------- Comparison between a base_net over all patches output and slim_net -------')
         bold_printer('aggregated difference percentage = {0:.10f}%'.format(

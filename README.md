@@ -3,7 +3,7 @@
 An approach to compute patch-based local feature descriptors efficiently in
 presence of pooling and striding layers for whole images at once.
 
-A Pytorch and TF (WIP) implemention of the paper *"Fast Dense Feature Extraction with CNNs with Pooling Layers"*
+A Pytorch and TF (WIP) implementation of the paper *"Fast Dense Feature Extraction with CNNs with Pooling Layers"*
 https://arxiv.org/abs/1805.03096 
 
 #### Abstract
@@ -37,8 +37,8 @@ These instructions will explain how to use the Fast Dense Feature Extraction (**
         * multiPoolPrepare
         * unwarpPrepare
         * unwarpPool 
-    * ```BaseNet.py``` - This referes to an implementation of a pre-trained CNN <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> on training patches <img src="https://latex.codecogs.com/svg.latex?\Small&space;P^{T}" />. 
-    * ```SlimNet.py``` - This referes to the implementation of <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{I}" />.
+    * ```BaseNet.py``` - This refers to an implementation of a pre-trained CNN <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> on training patches <img src="https://latex.codecogs.com/svg.latex?\Small&space;P^{T}" />. 
+    * ```SlimNet.py``` - This refers to the implementation of <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{I}" />.
     * ```sample_code.py``` - test run
 
 * tf
@@ -50,8 +50,8 @@ These instructions will explain how to use the Fast Dense Feature Extraction (**
         * multiPoolPrepare
         * unwarpPrepare
         * unwarpPool 
-    * ```BaseNet.py``` - This referes to an implementation of a pre-trained CNN <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> on training patches <img src="https://latex.codecogs.com/svg.latex?\Small&space;P^{T}" />. 
-    * ```SlimNet.py``` - This referes to the implementation of <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{I}" />.
+    * ```BaseNet.py``` - This refers to an implementation of a pre-trained CNN <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" /> on training patches <img src="https://latex.codecogs.com/svg.latex?\Small&space;P^{T}" />. 
+    * ```SlimNet.py``` - This refers to the implementation of <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{I}" />.
     * ```sample_code.py``` - test run
     * tests
         * ```tf_tests.py``` - unit tests to check the output shapes of the FDFE layers
