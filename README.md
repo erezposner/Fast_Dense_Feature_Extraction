@@ -74,7 +74,7 @@ There are two modes of operation for
 over a single patch ```pH x pW```
 that would get cropped from input image <img src="https://latex.codecogs.com/svg.latex?\Small&space;I" /> around <img src="https://latex.codecogs.com/svg.latex?\Small&space;I(patch \space\space center_i,patch \space\space center_j)" /> 
 
-* <b>allPatches</b> mode - run <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" />  over multuple patches at ones. 
+* <b>allPatches</b> mode - run <img src="https://latex.codecogs.com/svg.latex?\Small&space;C_{p}" />  over multiple patches at ones. 
 here ```batch_size``` will determine how many patches would get evaluated at once.
 
  
