@@ -79,7 +79,7 @@ here ```batch_size``` will determine how many patches would get evaluated at onc
 
  
 ### Possible arguments
-In ```test_example.py``` there are initial parameters that could be adjusted: 
+In ```sample_code.py``` there are initial parameters that could be adjusted: 
 * Tested Input Image dimensions:
 <pre>
 - <b>imH</b> - Input image height  
