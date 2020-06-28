@@ -32,6 +32,9 @@ class unwrapPrepare(tf.keras.layers.Layer):
 
     def call(self, input):
         x = tf.slice(input, self.crop, [input.shape[0], input.shape[1] - 1, input.shape[2] - 1, input.shape[3]])
+        
+        # Below Line is necessary to map pytorch code to tensorflow, as pytorch follows channels-first format
+        x = tf.keras.layers.Permute((3, 1, 2))(x)
         x = tf.reshape(x, [x.shape[0], -1], name='unwrapPrepare_reshape')
         # y = x
         y = tf.transpose(x)
